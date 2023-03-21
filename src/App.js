@@ -16,6 +16,7 @@ function App() {
   }
   useEffect(() => {Object.values(returntrays)[0] && setTrays(trays.concat(Object.values(returntrays)[0]));
     console.log(returntrays);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[returntrays]);
   return (
     <div className="App">
@@ -24,21 +25,25 @@ function App() {
         <img src={require("./puerco.png")} className="App-logo" alt="logo" />
       </header>
       {trays.length > 0 && (
-        <table id= "table">
-          <tr >
-            <th>Nombre</th>
-            <th>Precio</th>
-          </tr>
+        <table className= "table">
+          <tbody>
+            <tr >
+              <th>Nombre</th>
+              <th>Precio</th>
+            </tr>
+          </tbody>
         </table>
       )}
       {trays.length > 0 && (
           trays.map(tray => {
             return(
-              <table id= "table">
-                <tr key={tray.id}>
-                  <td>{tray.name}</td>
-                  <td>{tray.price}</td>
-                </tr>
+              <table className= "table" key={tray.id}>
+                <tbody>
+                  <tr >
+                    <td>{tray.name}</td>
+                    <td>{tray.price}</td>
+                  </tr>
+                </tbody>
               </table>
             );
           })
