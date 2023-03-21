@@ -3,7 +3,8 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 30vmin;
+  border-radius: 10%;
   pointer-events: none;
 }
 
@@ -22,6 +23,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.Title{
+  color: lightblue;
+  text-align: center;
 }
 
 .App-link {

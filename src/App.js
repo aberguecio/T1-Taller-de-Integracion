@@ -1,7 +1,5 @@
 import React, { useState} from 'react';
-import logo from './logo.svg';
 import './App.css';
-
 
 function MyButton() {
   const [trays, setTrays] = useState(true);
@@ -12,7 +10,7 @@ function MyButton() {
       setTrays(data);
     });
   }
-  console.log(Object.values(trays)[0])
+  /* console.log(Object.values(trays)[0]) */
   return (
   <div>
     {Object.values(trays)[0] ? (
@@ -37,7 +35,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <h1 className = "Title">EL Puerquito</h1>
+        <img src={require("./puerco.png")} className="App-logo" alt="logo" />
         <MyButton/>
       </header>
     </div>
