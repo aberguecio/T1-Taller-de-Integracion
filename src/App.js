@@ -41,13 +41,14 @@ function App() {
     <div className="App">
       <Appnavbar seter = {setConsult}/>
       <header className="App-header">
-        <h1 className = "Title">EL Puerquito</h1>
+        <h1 className = "Title">Le Puerquito</h1>
         <img src={require("./puerco.png")} className="App-logo" alt="logo" />
       </header>
       {trays.length > 0 && (
         <table className= "table">
           <tbody>
             <tr >
+              <th id = "first">Image</th>
               <th>Nombre</th>
               <th>Precio</th>
             </tr>
@@ -60,6 +61,8 @@ function App() {
               <table className= "table" key={tray.id}>
                 <tbody>
                   <tr >
+                    {tray.img_url ? (<td id = "first">{<img src={tray.img_url} className = "tableimage" alt=""/>}</td>
+                      ):(<td id = "first"><img src={require("./menu.png")} className="tableimage" alt="menu"/></td>)}
                     <td>{tray.name}</td>
                     <td>{tray.price}</td>
                   </tr>
