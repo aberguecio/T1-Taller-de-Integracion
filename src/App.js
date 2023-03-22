@@ -1,25 +1,45 @@
 import React, { useState, useEffect} from 'react';
 import './App.css';
+import Appnavbar from "./Navbar.js";
 
 function App() {
+  const [consult, setConsult] = useState("trays");
   const [trays, setTrays] = useState([]);
   const [returntrays, setReturntrays] = useState([]);
   const [page, setPage] = useState(1);
 
-  async function HandleClick(){
-    setPage(page+1)
-    await fetch(`https://tarea-1.2023-1.tallerdeintegracion.cl/trays?page=${page}`, {method: "GET"})
+  async function Makecall(){
+    await fetch(`https://tarea-1.2023-1.tallerdeintegracion.cl/${consult}?page=${page}`, {method: "GET"})
     .then((response) => response.json())
     .then((data) => {
       setReturntrays(data);
     });
   }
+
+  useEffect(() => {
+    Makecall()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[page]);
+
+  useEffect(() => {
+    setTrays([]);
+    setPage(1)
+    page === 1 && Makecall()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[consult]);
+
   useEffect(() => {Object.values(returntrays)[0] && setTrays(trays.concat(Object.values(returntrays)[0]));
     console.log(returntrays);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[returntrays]);
+
+  function HandleClick(){
+    setPage(page+1)
+  }
+
   return (
     <div className="App">
+      <Appnavbar seter = {setConsult}/>
       <header className="App-header">
         <h1 className = "Title">EL Puerquito</h1>
         <img src={require("./puerco.png")} className="App-logo" alt="logo" />
@@ -59,7 +79,7 @@ function MyButton({onClick}) {
   return (
   <div>
     <button onClick={onClick} className = "btn">
-      Click me
+      More
     </button>
   </div>
   );
