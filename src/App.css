@@ -77,7 +77,6 @@
 
 .table td {
   border: 1px solid #ddd;
-  width: 60%
 }
 
 
@@ -94,14 +93,40 @@
   text-align: left;
   background-color: #04AA6D;
   color: white;
+}
+
+.first {
+  width: 10%
+}
+
+.tablename {
   width: 60%
 }
 
-#first {
-  width: 10%
-}
+
 
 .tableimage{
   max-width: 100%;
   max-height: 100px;
+}
+
+
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-main {
+  position: fixed;
+  background: white;
+  width: 80%;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
