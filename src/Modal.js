@@ -1,5 +1,6 @@
-const Modal = ({ handleClose, details }) => {
 
+const Modal = ({ handleClose, details, revdetails }) => {
+  
   return (
     <div className="modal display-block">
       <section className="modal-main">
@@ -37,11 +38,56 @@ const Modal = ({ handleClose, details }) => {
               </tr>
             </tbody>
           </table>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th className= "first">username</th>
+                <th className= "first">rating</th>
+                <th className= "first">content</th>
+                <th className= "first">daten</th>
+              </tr>
+            </thead>
+            </table>
+
+          {revdetails.length > 0 && (
+          revdetails.map(rev => {
+            return(
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td className= "first">{rev.username}</td>
+                    <td className= "first">{rev.rating}</td>
+                    <td className= "first">{rev.content}</td>
+                    <td className= "first">{rev.date}</td>
+                  </tr>
+                </tbody>
+              </table>
+            )
+          }))}
+          <div>
+          <label>
+              Name:
+              <input type="text" name="email" />
+              password
+              <input type="text" name="password" />
+              content
+              <input type="text" name="content" />
+              rating
+              <input type="text" name="rating" />
+
+{/*               entity_id": "string", */}
+          </label>
+          <button onClick={handleClose}>send</button>
+          </div>
+  
+          <button onClick={handleClose}>close</button>
         </div>
-        <button onClick={handleClose}>close</button>
       </section>
     </div>
   );
 };
+
+
 
 export default Modal;

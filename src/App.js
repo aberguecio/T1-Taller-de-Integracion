@@ -6,6 +6,7 @@ import Modal  from "./Modal.js"
 function App() {
   const [consult, setConsult] = useState("trays");
   const [data, setData] = useState([]);
+  const [revdata, setRevdata] = useState([]);
   const [returndata, setReturndata] = useState([]);
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState("name");
@@ -14,7 +15,7 @@ function App() {
   const [show, setShow] = useState(false);
   const [selectedData, setSelectedData] = useState({});
 
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState(' ');
 
 
   async function Makecall(){
@@ -37,6 +38,12 @@ function App() {
     page === 1 && Makecall()
       // eslint-disable-next-line react-hooks/exhaustive-deps
   },[consult,sort,order]);
+
+  useEffect(() => {
+    setSearchText("")
+    setShow(false)
+  },[]);
+
 
   useEffect(() => {Array.isArray(Object.values(returndata)[0]) ? (setData(data.concat(Object.values(returndata)[0]))):
     (setData(data.concat(Object.values(returndata))));
@@ -64,10 +71,38 @@ function App() {
     .then((response) => response.json())
     .then((data) => {
       setSelectedData(data);
-      console.log(data)
-      setShow(true);
+      console.log("1",data)
+      handleReviews(id)
     });
   }
+
+  async function handleReviews(id) {
+    await fetch(`https://tarea-1.2023-1.tallerdeintegracion.cl/reviews/${id}`, {method: "GET"})
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("2",data)
+      setRevdata(data);
+    });
+  }
+
+  useEffect(() => {
+    (Object.values(selectedData).length !== 0 && setShow(true))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[revdata]);
+
+/*   async function sendReviews() {
+    await fetch(`https://tarea-1.2023-1.tallerdeintegracion.cl/reviews/`, {method: "POST", 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({a: 1, b: 'Textual content'})})
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("2",data)
+      setRevdata(data);
+    });
+  } */
 
   async function handleInputChange() {
     await fetch(`https://tarea-1.2023-1.tallerdeintegracion.cl/search/${consult}?name=${searchText}`, {method: "GET"})
@@ -105,7 +140,7 @@ function App() {
       <MyButton onClick={sortClick} text="sort"/>
       <MyButton onClick={orderClick} text="order"/>
 
-      {show && <Modal details={selectedData} handleClose={hideModal} />}
+      {show && <Modal details={selectedData} revdetails={revdata} handleClose={hideModal} />}
 
       {data.length > 0 && (
         <table className= "table">
