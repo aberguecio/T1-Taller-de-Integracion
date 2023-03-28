@@ -15,14 +15,14 @@ function App() {
   const [show, setShow] = useState(false);
   const [selectedData, setSelectedData] = useState({});
 
-  const [searchText, setSearchText] = useState(' ');
+  const [searchText, setSearchText] = useState('');
 
 
   async function Makecall(){
     await fetch(`https://tarea-1.2023-1.tallerdeintegracion.cl/${consult}?sort=${sort}&order=${order}&page=${page}&size=25`, {method: "GET"})
     .then((response) => response.json())
     .then((data) => {
-      console.log(data)
+      console.log("Makecall:",data)
       setReturndata(data);
     });
   }
@@ -39,15 +39,14 @@ function App() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
   },[consult,sort,order]);
 
-  useEffect(() => {
+/*   useEffect(() => {
     setSearchText("")
     setShow(false)
-  },[]);
+  },[]); */
 
 
   useEffect(() => {Array.isArray(Object.values(returndata)[0]) ? (setData(data.concat(Object.values(returndata)[0]))):
     (setData(data.concat(Object.values(returndata))));
-    console.log("-----", returndata, Object.values(returndata), Object.values(returndata)[0]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[returndata]);
 
@@ -71,7 +70,7 @@ function App() {
     .then((response) => response.json())
     .then((data) => {
       setSelectedData(data);
-      console.log("1",data)
+      console.log("TableClick:",data)
       handleReviews(id)
     });
   }
@@ -80,7 +79,7 @@ function App() {
     await fetch(`https://tarea-1.2023-1.tallerdeintegracion.cl/reviews/${id}`, {method: "GET"})
     .then((response) => response.json())
     .then((data) => {
-      console.log("2",data)
+      console.log("handleReviews:",data)
       setRevdata(data);
     });
   }
@@ -90,19 +89,6 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[revdata]);
 
-/*   async function sendReviews() {
-    await fetch(`https://tarea-1.2023-1.tallerdeintegracion.cl/reviews/`, {method: "POST", 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({a: 1, b: 'Textual content'})})
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("2",data)
-      setRevdata(data);
-    });
-  } */
 
   async function handleInputChange() {
     await fetch(`https://tarea-1.2023-1.tallerdeintegracion.cl/search/${consult}?name=${searchText}`, {method: "GET"})
@@ -180,7 +166,6 @@ function App() {
 }
 
 function MyButton({onClick, text}) {
-  /* console.log(Object.values(data)[0]) */
   return (
     <button onClick={onClick} className = "btn">
       {text}

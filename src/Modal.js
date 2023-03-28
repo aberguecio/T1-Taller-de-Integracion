@@ -1,10 +1,58 @@
+import React, { useState,useEffect} from 'react';
 
 const Modal = ({ handleClose, details, revdetails }) => {
-  
+  const [ratingdata, setRatingdata] = useState([]);
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
+
+  async function Modalrev(){
+    console.log(ratingdata)
+    await fetch(`https://tarea-1.2023-1.tallerdeintegracion.cl/reviews`, {method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"entity_id":ratingdata[0],"email":ratingdata[1],"password":ratingdata[2],"content":ratingdata[3],"rating":rating})
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Modalrev:",data)
+    });
+  }
+
+  useEffect(() => {
+    console.log(ratingdata)
+    Modalrev(ratingdata)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[ratingdata]);
+
+  function StarRating() {
+    return (
+      <div className="star-rating">
+        {[...Array(5)].map((star, index) => {
+          index += 1;
+          return (
+            <button
+              type="button"
+              key={index}
+              className={index <= (hover || rating) ? "on" : "off"}
+              onClick={() => setRating(index)}
+              onMouseEnter={() => setHover(index)}
+              onMouseLeave={() => setHover(rating)}
+            >
+              <span className="star">&#9733;</span>
+            </button>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <div className="modal display-block">
       <section className="modal-main">
         <div className="App">
+        <h1 className = "header">Informacion</h1>
           <table class="table">
             <thead>
               <tr>
@@ -49,10 +97,11 @@ const Modal = ({ handleClose, details, revdetails }) => {
               </tr>
             </thead>
             </table>
+            <h1 className = "header">Comentarios</h1>
 
           {revdetails.length > 0 && (
           revdetails.map(rev => {
-            return(
+            return(              
               <table class="table">
                 <tbody>
                   <tr>
@@ -65,23 +114,24 @@ const Modal = ({ handleClose, details, revdetails }) => {
               </table>
             )
           }))}
-          <div>
+          <div className="coments">
           <label>
-              Name:
+              Mail Uc:
               <input type="text" name="email" />
-              password
+              Numero Alumno
               <input type="text" name="password" />
-              content
+              Comentario
               <input type="text" name="content" />
-              rating
-              <input type="text" name="rating" />
-
-{/*               entity_id": "string", */}
+              <StarRating />
+              <button onClick={() => setRatingdata([details?.id,
+                document.getElementsByName('email')[0].value,
+                document.getElementsByName('password')[0].value,
+                document.getElementsByName('content')[0].value]
+              )}>send</button>
           </label>
-          <button onClick={handleClose}>send</button>
           </div>
   
-          <button onClick={handleClose}>close</button>
+          <button className = "btn" onClick={handleClose}>close</button>
         </div>
       </section>
     </div>
